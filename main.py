@@ -36,6 +36,10 @@ def main() -> None:
         raise ValueError(f"reply line is {len(LINE)} characters, must be 1-200")
     if "\n" in LINE or not LINE.strip():
         raise ValueError("reply line must be one non-blank line")
+    # Criterion 4 of the judge's brief: one sentence. The line must end in
+    # exactly one full stop and contain no other sentence terminator.
+    if LINE.count(".") != 1 or not LINE.endswith("."):
+        raise ValueError("reply line must be exactly one sentence")
     out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR") or "/output")
     out_dir.mkdir(parents=True, exist_ok=True)
     entry_path = out_dir / "entry.txt"
